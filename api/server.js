@@ -2,7 +2,7 @@ const express = require('express');
 const server = express();
 
 //Middleware
-server.unsubscribe(express.json());
+server.use(express.json());
 
 //Routes
 server.get('/games', async (req, res) => {
@@ -10,14 +10,13 @@ server.get('/games', async (req, res) => {
 });
 
 server.post('/games', (req, res) => {
-  //   let {title, genre} = req.body;
+  let {title, genre} = req.body;
 
-  res.send(201).json({message: 'posted'});
-  //   if (title && genre) {
-  //     res.status(201).json({title: title, genre: genre});
-  //   } else {
-  //     res.status(422).json({message: 'You need to provide a title and genre'});
-  //   }
+  if (!title && !genre) {
+    res.status().json('Please provide a title and genre');
+  } else {
+    res.status(201).json({title, genre});
+  }
 });
 
 module.exports = server;
